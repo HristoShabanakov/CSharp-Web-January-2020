@@ -29,10 +29,13 @@ namespace SIS.HTTP.Headers
         public HttpHeader GetHeader(string key)
         {
             CoreValidator.ThrowIfNullOrEmpty(key, nameof(key));
+
+            //TODO: Validation for existing parameter
+
             return this.httpHeaders[key];
         }
 
-        public override string ToString() => string.Join("\r\n",
+        public override string ToString() => string.Join(GlobalConstants.HttpNewLine,
             this.httpHeaders.Values.Select(header => header.ToString()));
 
     }

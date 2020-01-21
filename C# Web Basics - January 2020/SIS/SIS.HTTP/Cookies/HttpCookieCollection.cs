@@ -2,6 +2,7 @@
 using SIS.HTTP.Cookies.Contracts;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 
 namespace SIS.HTTP.Cookies
 {
@@ -31,6 +32,8 @@ namespace SIS.HTTP.Cookies
         {
             CoreValidator.ThrowIfNullOrEmpty(key, nameof(key));
 
+            //TODO: Validation for existing parameter
+
             return this.httpCookies[key];
         }
 
@@ -47,5 +50,18 @@ namespace SIS.HTTP.Cookies
         {
             return GetEnumerator();
         }
+
+        public override string ToString()
+        {
+            StringBuilder sb = new StringBuilder();
+
+            foreach (var cookie in this.httpCookies.Values)
+            {
+                sb.Append($"Set-Cookie: {cookie}").Append(GlobalConstants.HttpNewLine);
+            }
+
+            return sb.ToString();
+        }
+        
     }
 }

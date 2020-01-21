@@ -9,6 +9,7 @@ using SIS.HTTP.Exceptions;
 using SIS.HTTP.Headers;
 using SIS.HTTP.Headers.Contracts;
 using SIS.HTTP.Requests.Contracts;
+using SIS.HTTP.Sessions.Contracts;
 
 namespace SIS.HTTP.Requests
 {
@@ -39,6 +40,8 @@ namespace SIS.HTTP.Requests
         public IHttpCookieCollection Cookies { get; }
 
         public HttpRequestMethod RequestMethod { get; private set; }
+
+        public IHttpSession Session { get; set ; }
 
         private bool IsValidRequestLine(string[] requestLineParams)
         {
@@ -101,7 +104,7 @@ namespace SIS.HTTP.Requests
 
         private void ParseRequestHeaders(string[] plainHeaders)
         {
-            plainHeaders.Select(plainHeader => plainHeader.Split(new[] { ':', ' ' }
+            plainHeaders.Select(plainHeader => plainHeader.Split(new[] { ": " }
                 , StringSplitOptions.RemoveEmptyEntries))
                 .ToList()
                 .ForEach(headerKeyValuePair => this.Headers.AddHeader(new HttpHeader(headerKeyValuePair[0], headerKeyValuePair[1])));

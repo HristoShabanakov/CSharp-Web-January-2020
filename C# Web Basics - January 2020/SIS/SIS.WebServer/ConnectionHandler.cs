@@ -3,6 +3,7 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 using SIS.HTTP.Common;
+using SIS.HTTP.Cookies;
 using SIS.HTTP.Enums;
 using SIS.HTTP.Exceptions;
 using SIS.HTTP.Requests;
@@ -10,6 +11,7 @@ using SIS.HTTP.Requests.Contracts;
 using SIS.HTTP.Responses.Contracts;
 using SIS.WebServer.Result;
 using SIS.WebServer.Routing.Contracts;
+using SIS.WebServer.Sessions;
 
 namespace SIS.WebServer
 {
@@ -18,6 +20,7 @@ namespace SIS.WebServer
         private readonly Socket client;
 
         private readonly IServerRoutingTable serverRoutingTable;
+
 
         public ConnectionHandler(Socket client, IServerRoutingTable serverRoutingTable)
         {
@@ -79,6 +82,37 @@ namespace SIS.WebServer
             this.client.Send(byteSegments, SocketFlags.None);
         }
 
+        private string SetRequestSession(IHttpRequest httpRequest)
+        {
+            string sessionId = null;
+
+            if (httpRequest.Cookies.ContainsCookie(HttpSessionStorage.SessionCookieKey))
+            {
+                var cookie = httpRequest.Cookies.GetCookie(HttpSessionStorage.SessionCookieKey);
+                sessionId = cookie.Value;
+            }
+            else
+            {
+                sessionId = Guid.NewGuid().ToString();
+            }
+
+            httpRequest.Session = HttpSessionStorage.GetSession(sessionId);
+
+            //It's not good practice to return a variable when creating a new object.
+            //The object might be null or not created, it's better to return the instance of the object.
+            return httpRequest.Session.Id;
+        }
+
+        private void SetResponseSession(IHttpResponse httpResponse, string sessionId)
+        {
+            if(sessionId != null)
+            {
+                httpResponse.Cookies
+                    .AddCookie(new HttpCookie(HttpSessionStorage
+                    .SessionCookieKey, sessionId));
+            }
+        }
+
         public async Task ProcessRequestAsync() 
         {
             IHttpResponse httpResponse = null;
@@ -90,8 +124,9 @@ namespace SIS.WebServer
                 if (httpRequest != null)
                 {
                     Console.WriteLine($"Processing: {httpRequest.RequestMethod} {httpRequest.Path}...");
-
+                    string sessionId = this.SetRequestSession(httpRequest);
                     httpResponse = this.HandleRequest(httpRequest);
+                    this.SetResponseSession(httpResponse, sessionId);
                 }
             }
             catch (BadRequestException e)
