@@ -3,6 +3,7 @@ using SIS.HTTP.Requests.Contracts;
 using SIS.HTTP.Responses.Contracts;
 using SIS.WebServer.Result;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Runtime.CompilerServices;
 
@@ -11,20 +12,20 @@ namespace Demo.App.Controllers
     public abstract class BaseController
     {
         protected IHttpRequest HttpRequest { get; set; }
-        private bool IsLoggedIn()
+
+        protected Dictionary<string, object> ViewData = new Dictionary<string, object>();
+        protected bool IsLoggedIn()
         {
             return this.HttpRequest.Session.ContainsParameter("username");
         }
         private string ParseTemplate(string viewContent)
         {
-            if (this.IsLoggedIn())
+            foreach (var param in ViewData)
             {
-                return viewContent.Replace("@Model.HelloMessage", $"Hello, {this.HttpRequest.Session.GetParameter("username")}");
+                viewContent = viewContent.Replace($"@Model.{param.Key}", param.Value.ToString());
             }
-            else
-            {
-                return viewContent.Replace("@Model.HelloMessage", "Hello World From SIS.WebServer");
-            }
+
+            return viewContent;
         }
         public IHttpResponse View([CallerMemberName] string view = null)
         {

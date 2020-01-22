@@ -33,7 +33,7 @@ namespace SIS.HTTP.Sessions
             this.sessionParameters[parameterName] = parameter;
         }
 
-        public void ClearParameters(string parameterName) 
+        public void ClearParameters() 
         {
             this.sessionParameters.Clear();
         }
