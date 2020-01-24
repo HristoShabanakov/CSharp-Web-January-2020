@@ -1,4 +1,5 @@
 ﻿using Demo.App.Controllers;
+using Demo.Data;
 using SIS.HTTP.Enums;
 using SIS.WebServer;
 using SIS.WebServer.Result;
@@ -11,27 +12,32 @@ namespace Demo.App
     {
         static void Main(string[] args)
         {
-            IServerRoutingTable serverRoutingTable = new ServerRoutingTable();
+
+            using (var context = new DemoDbContext())
+            {
+                context.Database.EnsureCreated();
+            }
+                IServerRoutingTable serverRoutingTable = new ServerRoutingTable();
 
             //[GET] Mappings
             serverRoutingTable.Add(HttpRequestMethod.Get, "/", httpRequest 
                 => new HomeController(httpRequest).Index(httpRequest));
-            serverRoutingTable.Add(HttpRequestMethod.Get, "/users/login", httpRequest
-                => new UserController().Login(httpRequest));
-            serverRoutingTable.Add(HttpRequestMethod.Get, "/users/register", httpRequest
-                => new UserController().Register(httpRequest));
-            serverRoutingTable.Add(HttpRequestMethod.Get, "/users/logout", httpRequest
-                => new UserController().Logout(httpRequest));
+            serverRoutingTable.Add(HttpRequestMethod.Get, "/login", httpRequest
+                => new UsersController().Login(httpRequest));
+            serverRoutingTable.Add(HttpRequestMethod.Get, "/register", httpRequest
+                => new UsersController().Register(httpRequest));
+            serverRoutingTable.Add(HttpRequestMethod.Get, "/logout", httpRequest
+                => new UsersController().Logout(httpRequest));
 
 
             serverRoutingTable.Add(HttpRequestMethod.Get, "/home", httpRequest
                 => new HomeController(httpRequest).Home(httpRequest));
 
             //[Post] Mappings
-            serverRoutingTable.Add(HttpRequestMethod.Post, "/users/login", httpRequest
-                => new UserController().LoginConfirm(httpRequest));
-            serverRoutingTable.Add(HttpRequestMethod.Post, "/users/register", httpRequest
-                => new UserController().RegisterConfirm(httpRequest));
+            serverRoutingTable.Add(HttpRequestMethod.Post, "/login", httpRequest
+                => new UsersController().LoginConfirm(httpRequest));
+            serverRoutingTable.Add(HttpRequestMethod.Post, "/register", httpRequest
+                => new UsersController().RegisterConfirm(httpRequest));
 
             Server server = new Server(8000, serverRoutingTable);
             server.Run();

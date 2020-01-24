@@ -1,4 +1,6 @@
-﻿using SIS.HTTP.Requests.Contracts;
+﻿using SIS.HTTP.Cookies;
+using SIS.HTTP.Requests.Contracts;
+using SIS.HTTP.Responses;
 using SIS.HTTP.Responses.Contracts;
 
 namespace Demo.App.Controllers
@@ -19,9 +21,10 @@ namespace Demo.App.Controllers
         {
             if (!this.IsLoggedIn())
             {
-                return this.Redirect("/users/login");
+                return this.Redirect("/login");
             }
 
+            this.ViewData["Username"] = this.HttpRequest.Session.GetParameter("username");
             return this.View();
         }
 

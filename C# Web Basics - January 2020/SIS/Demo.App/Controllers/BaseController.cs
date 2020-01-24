@@ -20,7 +20,7 @@ namespace Demo.App.Controllers
         }
         private string ParseTemplate(string viewContent)
         {
-            foreach (var param in ViewData)
+            foreach (var param in this.ViewData)
             {
                 viewContent = viewContent.Replace($"@Model.{param.Key}", param.Value.ToString());
             }
@@ -37,8 +37,6 @@ namespace Demo.App.Controllers
             viewContent = this.ParseTemplate(viewContent);
 
             HtmlResult htmlResult = new HtmlResult(viewContent, SIS.HTTP.Enums.HttpResponseStatusCode.Ok);
-
-            htmlResult.Cookies.AddCookie(new HttpCookie("lang", "en"));
 
             return htmlResult;
         }

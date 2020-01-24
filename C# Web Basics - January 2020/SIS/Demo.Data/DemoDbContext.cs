@@ -1,6 +1,5 @@
 ﻿using Demo.Models;
 using Microsoft.EntityFrameworkCore;
-using System;
 
 namespace Demo.Data
 {
@@ -24,6 +23,7 @@ namespace Demo.Data
         {
             modelBuilder.Entity<User>()
                 .HasKey(user => user.Id);
+
 
             base.OnModelCreating(modelBuilder);
         }
