@@ -12,6 +12,8 @@ namespace IRunes.Models
 
         public string Name { get; set; }
 
+        public string Cover { get; set; } 
+
         public decimal Price { get; set; }
 
         public List<Track> Tracks { get; set; }
