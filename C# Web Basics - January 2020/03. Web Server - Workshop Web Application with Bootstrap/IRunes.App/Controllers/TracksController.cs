@@ -19,7 +19,7 @@ namespace IRunes.App.Controllers
                 return this.Redirect("/Users/Login");
             }
 
-            string albumId = httpRequest.QueryData["id"].ToString();
+            string albumId = httpRequest.QueryData["albumid"].ToString();
 
             this.ViewData["AlbumId"] = albumId;
 
@@ -33,7 +33,7 @@ namespace IRunes.App.Controllers
                 return this.Redirect("/Users/Login");
             }
 
-            string albumId = httpRequest.QueryData["id"].ToString();
+            string albumId = httpRequest.QueryData["albumid"].ToString();
 
             using (var context = new RunesDbContext())
             {
@@ -44,10 +44,28 @@ namespace IRunes.App.Controllers
                     return this.Redirect("/Albums/All");
                 }
 
-                this.ViewData["Album"] = albumFromDb.ToHtmlDetails();
+                string name = ((ISet<string>)httpRequest.FormData["name"]).FirstOrDefault();
+                string link = ((ISet<string>)httpRequest.FormData["link"]).FirstOrDefault();
+                string price = ((ISet<string>)httpRequest.FormData["price"]).FirstOrDefault();
 
-                return this.View();
+                Track trackForDb = new Track
+                {
+                    Name = name,
+                    Link = link,
+                    Price = decimal.Parse(price)
+                };
+
+                albumFromDb.Tracks.Add(trackForDb);
+                albumFromDb.Price = (albumFromDb
+                    .Tracks
+                    .Select(track => track.Price)
+                    .Sum() * 87) / 100;
+
+                context.Update(albumFromDb);
+                context.SaveChanges();
+
             }
+            return this.Redirect($"/Albums/Details?id={albumId}");
         }
 
         public IHttpResponse Details(IHttpRequest httpRequest)
@@ -55,6 +73,23 @@ namespace IRunes.App.Controllers
             if (!this.IsLoggedIn(httpRequest))
             {
                 return this.Redirect("/Users/Login");
+            }
+
+            string trackId = httpRequest.QueryData["trackid"].ToString();
+            string albumId = httpRequest.QueryData["albumid"].ToString();
+            using (var context = new RunesDbContext())
+            {
+                Track trackFromDb = context.Tracks.SingleOrDefault(track => track.Id == trackId);
+
+                if (trackFromDb == null)
+                {
+                    return this.Redirect($"/Albums/Details?id={albumId}");
+                }
+
+                this.ViewData["Track"] = trackFromDb.ToHtmlDetails();
+                this.ViewData["AlbumId"] = albumId;
+
+                return this.View();
             }
         }
     }

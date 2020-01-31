@@ -30,15 +30,15 @@
         </header>
         <hr style="height: 2px" />
         <main>
-            {{{track}}}
+            @Model.Track
             <hr style =\"height: 2px\" />"
             <div>
-                <a href="/Albums/Details?id={{{albumId}}}">Back To Album</a>
+                <a href="/Albums/Details?id=@Model.AlbumId">Back To Album</a>
             </div>
         </main>
         <hr style="height: 2px" />
         <footer>
-            <h5>CopyRight &copy; Sanity Design Studios. All rights reserved.</h5>
+            <h5 class="font-weight-bold text-center">CopyRight &copy; Sanity Design Studios. All rights reserved.</h5>
         </footer>
     </div>
 </body>
