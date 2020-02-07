@@ -21,17 +21,17 @@ namespace IRunes.App.Extensions
         {
             return "<div class=\"album-details d-flex justify-content-between row\">" +
                 "   <div class=\"album-data col-md-5\">" +
-                "       <img src=\"@Model.AlbumLink\" class=\"img-thumbnail\"/>" +
-                "       <h1 class=\"text-center\">Album Name: @Model.AlbumName</h1>" +
-                "       <h1 class=\"text-center\">Album Price: @Model.AlbumPrice</h1>" +
+                $"       <img src=\"{WebUtility.UrlDecode(album.Cover)}\" class=\"img-thumbnail\"/>" +
+                $"       <h1 class=\"text-center\">Album Name: {album.Name}</h1>" +
+                $"       <h1 class=\"text-center\">Album Price: {album.Price:F2}</h1>" +
                 "       <div class=\"d-flex justify-content-between\">" +
-                "           <a class=\"btn bg-success text-white\" href=\"/Tracks/Create?albumId=@Model.AlbumId\">Create Track</a>" +
+                $"           <a class=\"btn bg-success text-white\" href=\"/Tracks/Create?albumId={album.Id}\">Create Track</a>" +
                 "           <a class=\"btn bg-success text-white\" href=\"/Albums/All\">Back To All</a>" +
                 "       </div>" +
                 "   </div>" +
                 "   <div class=\"albums-tracks col-md-6\">" +
                 "       <h1>Tracks</h1>" +
-                "       <div><strong>1.</strong><a href=\"/asd\"><i>Revival</i></a></div> " +
+                $"       {GetTracks(album)} " +
                 "   </div>" +
                 "</div>"
                 ;
@@ -39,7 +39,7 @@ namespace IRunes.App.Extensions
 
         public static string ToHtmlAll(this Track track, string albumId, int index)
         {
-            return $"<li><strong>{index}</strong>. <a href=\"/Tracks/Details?albumid={albumId}&trackid={track.Id}\"> {WebUtility.UrlDecode(track.Name)}</a></li>";
+            return $"<li><strong>{index}</strong>. <a href=\"/Tracks/Details?albumid={albumId}&trackid={track.Id}\"><i>{WebUtility.UrlDecode(track.Name)}</i></a></li>";
         }
 
         public static string ToHtmlDetails(this Track track)
