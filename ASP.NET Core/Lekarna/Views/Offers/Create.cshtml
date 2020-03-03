@@ -1,0 +1,57 @@
+﻿@using Lekarna.ViewModels.Offers
+
+@model CreateOfferInputModel 
+
+<h1>Create Offer</h1>
+<div class="col-md-4">
+    <form asp-controller="Offers" asp-action="Create" method="post">
+
+        <div asp-validation-summary="All" class="text-danger"></div>
+
+        <div class="form-group">
+            <label asp-for="Offer"></label>
+            <input asp-for="Offer" class="form-control" />
+            <span asp-validation-for="Offer" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Medicine"></label>
+            <input asp-for="Medicine" class="form-control" />
+            <span asp-validation-for="Medicine" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="PriceWithoutVAT"></label>
+            <input asp-for="PriceWithoutVAT" class="form-control" />
+            <span asp-validation-for="PriceWithoutVAT" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Discount"></label>
+            <input asp-for="Discount" class="form-control" />
+            <span asp-validation-for="Discount" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Orders"></label>
+            <input asp-for="Orders" class="form-control" />
+            <span asp-validation-for="Orders" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="VAT"></label>
+            <input asp-for="VAT" class="form-control" />
+            <span asp-validation-for="VAT" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="OrderDate"></label>
+            <input asp-for="OrderDate" class="form-control" />
+            <span asp-validation-for="OrderDate" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="OrderType"></label>
+            <select asp-for="OrderType" class="form-control" asp-items="@Html.GetEnumSelectList<OrderType>()"></select>
+            <span asp-validation-for="OrderType" class="text-danger"></span>
+        </div>
+        <hr />
+
+        <input type="submit" value="Order" class="btn btn-primary" />
+
+    </form>
+</div>
