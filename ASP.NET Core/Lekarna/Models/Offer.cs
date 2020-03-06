@@ -10,7 +10,7 @@ namespace Lekarna.Models
 
         public int Miligrams { get; set; }
 
-        public int Pills { get; set; }  
+        public int Tablets { get; set; }   
 
         public decimal Price { get; set; }
 

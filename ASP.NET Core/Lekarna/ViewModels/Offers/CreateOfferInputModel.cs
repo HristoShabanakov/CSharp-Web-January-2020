@@ -13,6 +13,12 @@ namespace Lekarna.ViewModels.Offers
         public string Medicine { get; set; }
 
         [Required]
+        public int Miligrams { get; set; }
+
+        [Required]
+        public int Quantity { get; set; } 
+
+        [Required]
         [Display(Name = "Price Without VAT")]
         public decimal PriceWithoutVAT { get; set; }
 
@@ -20,20 +26,24 @@ namespace Lekarna.ViewModels.Offers
         public decimal Discount { get; set; }
 
         [Required]
-        public int Orders { get; set; }
-
-        [Required]
-        public decimal VAT { get; set; }
+        [Display(Name = "Price With VAT")]
+        public decimal PriceWithVAT { get; set; }
 
         [Required]
         [DataType(DataType.Date)]
-        [Display(Name ="Order Date")]
-        public DateTime OrderDate { get; set; } 
+        [Display(Name = "Offer Termination")]
+        public DateTime OfferTermination { get; set; } 
 
         [Required]
         [Display(Name = "Order Type")]
         public OrderType OrderType { get; set; }
-}
+
+        [Required]
+        [Display(Name = "Medicine Type")]
+        public MedicineType MedicineType { get; set; }
+
+
+    }
 
     public enum OrderType
     {
@@ -41,4 +51,13 @@ namespace Lekarna.ViewModels.Offers
         Fast = 2,
         Express = 3,
     }
+
+    public enum MedicineType
+    {
+        Miligrams = 1,
+        Mililiters = 2,
+        Tablets  = 3
+    }
+
+
 }

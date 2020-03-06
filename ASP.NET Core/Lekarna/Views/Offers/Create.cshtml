@@ -13,16 +13,20 @@
             <input asp-for="Offer" class="form-control" />
             <span asp-validation-for="Offer" class="text-danger"></span>
         </div>
-
         <div class="form-group">
             <label asp-for="Medicine"></label>
             <input asp-for="Medicine" class="form-control" />
             <span asp-validation-for="Medicine" class="text-danger"></span>
         </div>
         <div class="form-group">
-            <label asp-for="PriceWithoutVAT"></label>
-            <input asp-for="PriceWithoutVAT" class="form-control" />
-            <span asp-validation-for="PriceWithoutVAT" class="text-danger"></span>
+            <label asp-for="MedicineType"></label>
+            <select asp-for="MedicineType" class="form-control" asp-items="@Html.GetEnumSelectList<MedicineType>()"></select>
+            <span asp-validation-for="MedicineType" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Quantity"></label>
+            <input asp-for="Quantity" class="form-control" />
+            <span asp-validation-for="Quantity" class="text-danger"></span>
         </div>
         <div class="form-group">
             <label asp-for="Discount"></label>
@@ -30,19 +34,19 @@
             <span asp-validation-for="Discount" class="text-danger"></span>
         </div>
         <div class="form-group">
-            <label asp-for="Orders"></label>
-            <input asp-for="Orders" class="form-control" />
-            <span asp-validation-for="Orders" class="text-danger"></span>
+            <label asp-for="PriceWithVAT"></label>
+            <input asp-for="PriceWithVAT" class="form-control" />
+            <span asp-validation-for="PriceWithVAT" class="text-danger"></span> 
         </div>
         <div class="form-group">
-            <label asp-for="VAT"></label>
-            <input asp-for="VAT" class="form-control" />
-            <span asp-validation-for="VAT" class="text-danger"></span>
+            <label asp-for="PriceWithoutVAT"></label>
+            <input asp-for="PriceWithoutVAT" class="form-control" />
+            <span asp-validation-for="PriceWithoutVAT" class="text-danger"></span>
         </div>
         <div class="form-group">
-            <label asp-for="OrderDate"></label>
-            <input asp-for="OrderDate" class="form-control" />
-            <span asp-validation-for="OrderDate" class="text-danger"></span>
+            <label asp-for="OfferTermination"></label>
+            <input asp-for="OfferTermination" class="form-control" />
+            <span asp-validation-for="OfferTermination" class="text-danger"></span> 
         </div>
         <div class="form-group">
             <label asp-for="OrderType"></label>
