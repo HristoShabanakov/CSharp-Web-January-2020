@@ -12,6 +12,7 @@ using Lekarna.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Lekarna.SeedData;
 
 namespace Lekarna
 {
@@ -36,9 +37,10 @@ namespace Lekarna
                 options.Password.RequireLowercase = false;
                 options.Password.RequireUppercase = false;
                 options.Password.RequireNonAlphanumeric = false;
-                options.Password.RequiredLength = 6;
+                options.Password.RequiredLength = 3;
                 options.Password.RequiredUniqueChars = 0;
             })
+                .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddControllersWithViews();
             services.AddRazorPages();
@@ -55,6 +57,11 @@ namespace Lekarna
                 {
                     dbContext.Database.Migrate();
                 }
+
+                new ApplicationDbContextSeeder(scopedService.ServiceProvider, dbContext)
+                    .SeedDataAsync()
+                    .GetAwaiter()
+                    .GetResult();
             }
 
             if (env.IsDevelopment())

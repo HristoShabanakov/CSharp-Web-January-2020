@@ -30,17 +30,56 @@ namespace Lekarna.SeedData
 
         private async Task SeedUserToRolesAsync()
         {
-            throw new NotImplementedException();
+            var role = await roleManager.FindByNameAsync("Admin");
+            var user = await userManager.FindByNameAsync("John");
+
+            var exists = dbContext.UserRoles.Any(x => x.UserId == user.Id && x.RoleId == role.Id);
+
+            if (exists)
+            {
+                return;
+            }
+
+            dbContext.UserRoles.Add(new IdentityUserRole<string>
+            {
+                RoleId = role.Id,
+                UserId = user.Id
+            });
+
+           await dbContext.SaveChangesAsync();
         }
 
         private async Task SeedRolesAsync()
         {
-            throw new NotImplementedException();
+            var role = await roleManager.FindByNameAsync("Admin");
+
+            if (role != null)
+            {
+                return;
+            }
+
+            await roleManager.CreateAsync(new IdentityRole
+            {
+                Name = "Admin"
+            });
         }
 
         private async Task SeedUsersAsync()
         {
-            throw new NotImplementedException();
+            var user = await userManager.FindByNameAsync("John");
+
+            if(user != null)
+            {
+                return;
+            }
+
+            await userManager.CreateAsync(new IdentityUser
+            {
+                UserName = "John",
+                Email = "John@doe.com",
+                EmailConfirmed = true
+            },
+            "test123") ;
         }
     }
 }
