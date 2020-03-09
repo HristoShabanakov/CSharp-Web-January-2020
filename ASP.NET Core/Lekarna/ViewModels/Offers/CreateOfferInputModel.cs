@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace Lekarna.ViewModels.Offers
@@ -9,11 +10,7 @@ namespace Lekarna.ViewModels.Offers
         public string Offer { get; set; } 
 
         [Required(ErrorMessage = "Please fill medicine!")]
-        
         public string Medicine { get; set; }
-
-        [Required]
-        public int Miligrams { get; set; }
 
         [Required]
         public int Quantity { get; set; } 
@@ -34,22 +31,11 @@ namespace Lekarna.ViewModels.Offers
         [Display(Name = "Offer Termination")]
         public DateTime OfferTermination { get; set; } 
 
-        [Required]
-        [Display(Name = "Order Type")]
-        public OrderType OrderType { get; set; }
+        public IFormFile Image { get; set; }
 
         [Required]
         [Display(Name = "Medicine Type")]
         public MedicineType MedicineType { get; set; }
-
-
-    }
-
-    public enum OrderType
-    {
-        Normal = 1,
-        Fast = 2,
-        Express = 3,
     }
 
     public enum MedicineType

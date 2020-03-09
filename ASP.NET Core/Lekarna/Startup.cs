@@ -13,6 +13,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Lekarna.SeedData;
+using CloudinaryDotNet;
 
 namespace Lekarna
 {
@@ -44,6 +45,15 @@ namespace Lekarna
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddControllersWithViews();
             services.AddRazorPages();
+
+            Account account = new Account(
+              this.Configuration["Cloudinary:AppName"],
+              this.Configuration["Cloudinary:AppKey"],
+              this.Configuration["Cloudinary:AppSecret"]);
+
+            Cloudinary cloudinary = new Cloudinary(account);
+
+            services.AddSingleton(cloudinary);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
