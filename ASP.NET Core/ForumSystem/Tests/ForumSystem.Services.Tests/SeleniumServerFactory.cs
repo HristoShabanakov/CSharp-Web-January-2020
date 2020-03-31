@@ -1,4 +1,4 @@
-﻿namespace ForumSystem.Web.Tests
+﻿namespace ForumSystem.Services.Tests
 {
     using System;
     using System.Diagnostics;
