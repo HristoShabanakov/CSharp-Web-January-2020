@@ -349,3 +349,4 @@ MigrationBackup/
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
 /ASP.NET Core/Lekarna/appsettings.json
+/ASP.NET Core/ForumSystem/Data/ForumSystem.Data/appsettings.json
